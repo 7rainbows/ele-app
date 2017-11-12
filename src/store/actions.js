@@ -15,12 +15,13 @@ export default {
       }
     })
   },
-  getGoods ({commit}) {
+  getGoods ({commit}, callback) {
     reqGoods().then(response => {
       const result = response.data
       if (result.code === RESULT_OK) {
         const goods = result.data
         commit(RECEIVE_GOODS, {goods})
+        callback && callback()
       }
     })
   },

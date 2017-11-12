@@ -18,11 +18,11 @@
       starClasses () {
         const {score, size} =this
         const scs = []
-        const scoreInter = Math.floor(score)
-        for (let i = 0; i < scoreInter; i++) {
+        const scoreInteger = Math.floor(score)
+        for (let i = 0; i < scoreInteger; i++) {
           scs.push(`star${size} on`)
         }
-        if (score-scoreInter>=0.5) {
+        if (score-scoreInteger>=0.5) {
           scs.push(`star${size} half`)
         }
         while (scs.length<5) {

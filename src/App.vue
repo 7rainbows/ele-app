@@ -1,7 +1,7 @@
 <template>
   <div>
     <ele-header />
-    <div class="tab ">
+    <div class="tab">
       <div class="tab-item">
         <router-link to="/goods">商品</router-link>
       </div>
@@ -18,9 +18,8 @@
 
 <script>
   import header from './components/header/header.vue'
-  import axios from 'axios'
+  //import axios from 'axios'
   export default {
-
     mounted () {
 
       /*axios.get('/api2/seller')  //测试mock接口
@@ -29,9 +28,7 @@
         })*/
 
       this.$store.dispatch('getSeller')
-
     },
-
     components: {
       'ele-header': header
     }
