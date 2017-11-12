@@ -18,7 +18,20 @@
 
 <script>
   import header from './components/header/header.vue'
+  import axios from 'axios'
   export default {
+
+    mounted () {
+
+      /*axios.get('/api2/seller')  //测试mock接口
+        .then(response => {
+          console.log(response.data);
+        })*/
+
+      this.$store.dispatch('getSeller')
+
+    },
+
     components: {
       'ele-header': header
     }
