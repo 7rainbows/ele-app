@@ -197,7 +197,7 @@
       left 0
       top 0
       background-color rgba(7,17,27,0.8)
-      z-index 2
+      z-index 60
       &.fade-enter-active, &.fade-leave-active
         transition opacity .3s
       &.fade-enter, &.fade-leave-to
