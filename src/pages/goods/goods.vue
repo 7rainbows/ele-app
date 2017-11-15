@@ -4,7 +4,8 @@
       <div class="menu-wrapper" ref="menuWrapper">
         <ul>
           <!--current-->
-          <li class="menu-item" v-for="(good, index) in goods" :key="index">
+          <li class="menu-item" v-for="(good, index) in goods" :key="index"
+              :class="{current: index===currentIndex}" @click="clickMenuItem(index)">
             <span class="text border-1px">
               <span class="icon" v-if="good.type>0" :class="supportsClass[good.type]"></span>{{good.name}}
             </span>
@@ -31,12 +32,9 @@
                     <span class="now">￥{{food.price}}</span>
                     <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                   </div>
-                  <div class="cartcontrol-wrapper"><!--cartcontrol组件-->
-                    <div class="cartcontrol">
-                      <div class="cart-decrease icon-remove_circle_outline" style="display: none;"></div>
-                      <div class="cart-count" style="display: none;"></div>
-                      <div class="cart-add icon-add_circle"></div>
-                    </div>
+                  <div class="cartcontrol-wrapper">
+                    <!--cartcontrol组件-->
+                    <cartcontrol :food="food"></cartcontrol>
                   </div>
                 </div>
               </li>
@@ -44,6 +42,7 @@
           </li>
         </ul>
       </div>
+      <shopcart ></shopcart>
     </div>
   </div>
 </template>
@@ -51,10 +50,14 @@
 <script>
   import {mapState} from 'vuex'
   import BScroll from 'better-scroll'
+  import cartcontrol from '../../components/cartcontrol/cartcontrol.vue'
+  import shopcart from '../../components/shopcart/shopcart.vue'
   export default{
     data () {
       return {
         supportsClass: ['decrease', 'discount', 'guarantee', 'invoice', 'special'],
+        scrollY: 0,
+        tops: []
       }
     },
     mounted () {
@@ -66,17 +69,65 @@
         /*将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。
         它跟全局方法 Vue.nextTick 一样，不同的是回调的 this 自动绑定到调用它的实例上。*/
         this.$nextTick(() => {
-          this.initScroll()
+          this._initScroll()
+          this._initTops()
         })
 
       })
     },
-    computed: mapState(['goods']),
-    methods: {
-      initScroll () {
-        let menuScroll = new BScroll(this.$refs.menuWrapper)
-        let foodsScroll = new BScroll(this.$refs.foodsWrapper)
+    computed: {
+      ...mapState(['goods']),
+      currentIndex () {
+        const {scrollY, tops} =this
+        const index = tops.findIndex((top, index) =>{
+          return scrollY >= top && scrollY < tops[index + 1]
+        })
+        //console.log('currentIndex ()', index);
+        return index
       }
+    },
+    methods: {
+      _initScroll () {
+        let menuScroll = new BScroll(this.$refs.menuWrapper, {
+          click: true
+        })
+        this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
+          click: true,
+          probeType:2
+        })
+
+        this.foodsScroll.on('scroll', (event) =>{
+         // console.log(event.y);
+          this.scrollY = Math.abs(event.y)
+        })
+
+        this.foodsScroll.on('scrollEnd', (event) =>{
+          this.scrollY = Math.abs(event.y)
+        })
+      },
+
+      _initTops () {
+        const tops = []
+        let top = 0
+        tops.push(top)
+        const lis = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook')
+        Array.prototype.slice.call(lis).forEach(li => {
+          top += li.clientHeight
+          tops.push(top)
+        })
+        this.tops = tops
+        //console.log(this.tops);
+      },
+
+      clickMenuItem (index) {
+        this.foodsScroll.scrollTo(0, -this.tops[index], 300)
+        this.scrollY = this.tops[index]
+      }
+
+    },
+    components: {
+      cartcontrol,
+      shopcart
     }
   }
 </script>

@@ -3,7 +3,14 @@
  */
 
 import {reqSeller, reqGoods, reqRatings, RESULT_OK} from '../api'
-import {RECEIVE_SELLER, RECEIVE_GOODS, RECEIVE_RATINGS} from './mutation-type'
+import {
+  RECEIVE_SELLER,
+  RECEIVE_GOODS,
+  RECEIVE_RATINGS,
+  INCREMENT_FOOD_COUNT,
+  DECREMENT_FOOD_COUNT,
+  CLEAR_CART
+} from './mutation-type'
 
 export default {
   getSeller ({commit}) {
@@ -33,5 +40,17 @@ export default {
         commit(RECEIVE_RATINGS, {ratings})
       }
     })
+  },
+
+  updateFoodCount ({commit}, {food, isAdd}) {
+    if (isAdd) {
+      commit(INCREMENT_FOOD_COUNT, {food})
+    } else {
+      commit(DECREMENT_FOOD_COUNT, {food})
+    }
+  },
+
+  clearCart ({commit}, foodList) {
+    commit(CLEAR_CART, {foodList})
   }
 }
