@@ -5,6 +5,7 @@ import router from './router'
 import store from './store'
 
 import './mock/mockServer'
+import './filters'
 import '../static/reset.css'
 import './common/stylus/fonts.styl'
 

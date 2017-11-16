@@ -35,7 +35,9 @@
         <div class="detail-wrapper">
           <div class="detail-main">
             <div class="name">{{seller.name}}</div>
-            <star :score="seller.score" :size="48"/> <!--star组件-->
+            <div class="star-wrapper">
+              <star :score="seller.score" :size="48"></star>
+            </div> <!--star组件-->
             <div class="title">
               <div class="line"></div>
               <div class="text">优惠信息</div>
@@ -213,12 +215,12 @@
             font-weight 700
             line-height 16px
             margin-bottom 16px
-          /*.star-wrapper
+          .star-wrapper
             height 24px
             width 100%
             display flex
             justify-content space-around
-            .star48
+            /*.star48
               width 20px
               height 20px
               background-size 20px 20px
@@ -228,7 +230,7 @@
             .off
               star-image(star48_off)
             .half
-              star-image(star48_half)*/
+              star-image(star48_half)*!*/
           .title
             display flex
             justify-content space-between

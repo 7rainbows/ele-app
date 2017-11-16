@@ -32,12 +32,13 @@ export default {
       }
     })
   },
-  getRatings ({commit}) {
+  getRatings ({commit}, callback) {
     reqRatings().then(response => {
       const result = response.data
       if (result.code === RESULT_OK) {
         const ratings = result.data
         commit(RECEIVE_RATINGS, {ratings})
+        callback && callback()
       }
     })
   },

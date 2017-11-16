@@ -68,15 +68,16 @@
   import cartcontrol from '../cartcontrol/cartcontrol.vue'
   import split from '../split/split.vue'
   import ratingselect from '../ratingselect/ratingselect.vue'
+  import {ratingsMixin} from '../../util/mixins'
   export default{
+    mixins:[ratingsMixin],
+
     props: {
       food: Object
     },
     data () {
       return {
-        isShow: false,
-        selectType: 2,
-        onlyContent: false
+        isShow: false
       }
     },
 
@@ -96,31 +97,6 @@
           })
         }
       },
-      setSelectType (selectType) {
-        this.selectType = selectType
-        this.$nextTick(() =>{
-          this.scroll.refresh()
-        })
-      },
-      toggleOnlyContent () {
-        this.onlyContent = !this.onlyContent
-        this.$nextTick(() =>{
-          this.scroll.refresh()
-        })
-      },
-    },
-    computed: {
-      filterRatings () {
-        const {onlyContent, selectType} = this
-        const {ratings} = this.food
-        if (!ratings) {
-          return
-        }
-
-        return ratings.filter(rating =>{
-          return (selectType===2 || rating.rateType===selectType) && (!onlyContent || rating.text.length > 0)
-        })
-      }
     },
     components: {
       cartcontrol,
