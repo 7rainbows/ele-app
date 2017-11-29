@@ -54,7 +54,7 @@ a {
   -webkit-backface-visibility: hidden;
 }
 
-li {
+ul,li {
   list-style: none;
 }
 
